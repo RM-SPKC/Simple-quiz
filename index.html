@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .quiz-container { max-width: 500px; margin: auto; padding: 40px; border: 1px solid #ddd; border-radius: 8px; }
+        .options label { display: block; margin: 10px 10px; }
+        button { margin-top: 35px; padding: 15px 35px; color:white; background-color:#C54B8C;border:0px;}
+		h1{color:#C54B8C;}
+    </style>
+</head>
+<body>
+    <h1>Quiz</h1>
+    <div class="quiz-container">
+        
+        <p id="question"></p>
+        <div id="options"></div>
+        <button onclick="nextQuestion()">Next</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "1.	Capital of France?", o: ["Berlin", "Madrid", "Paris"], a: 2 },
+            { q: "2.	2 + 2?", o: ["3", "4", "5"], a: 1 },
+            { q: "3.	Color of the sky?", o: ["Green", "Blue", "Red"], a: 1 }
+        ];
+
+        let i = 0, score = 0;
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+        
+        function displayQuestion() {
+            questionEl.textContent = questions[i].q;
+            optionsEl.innerHTML = questions[i].o.map((opt, index) => 
+                `<label><input type="radio" name="option" value="${index}"> ${opt}</label>`
+            ).join('');
+        }
+
+        function nextQuestion() {
+            const selected = document.querySelector("input[name='option']:checked");
+            if (selected && parseInt(selected.value) === questions[i].a) score++;
+            
+            if (++i < questions.length) displayQuestion();
+            else document.querySelector(".quiz-container").innerHTML = `<h1>Score: ${score} / ${questions.length}</h1>`;
+        }
+
+        displayQuestion();
+    </script>
+</body>
+</html>
